@@ -1,0 +1,61 @@
+version: '2'
+
+services:
+  web:
+    image: chriha/magento2
+    volumes:
+      - ./src:/var/www:delegated
+      - ./temp/composer:/composer
+    ports:
+      - "${APP_PORT}:80"
+    networks:
+      - default
+    links:
+      - db
+      - redis
+      - mailcatcher
+    env_file:
+      - ./src/.env
+  db:
+    image: mysql:5.7
+    restart: always
+    ports:
+      - "${DB_PORT}:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: "${DB_ROOT_PASS}"
+      MYSQL_USER: "${DB_USER}"
+      MYSQL_PASSWORD: "${DB_PASS}"
+      MYSQL_DATABASE: "${DB_NAME}"
+    volumes:
+      - ./temp/mysql:/var/lib/mysql
+    networks:
+      - default
+  node:
+    image: chriha/node:9
+    volumes:
+      - ./src:/var/www
+  redis:
+    image: redis:alpine
+    volumes:
+      - ./temp/redis:/data
+    networks:
+      - default
+    command: redis-server
+  mailcatcher:
+    image: chriha/mailcatcher:0.6-latest
+    networks:
+      - default
+    ports:
+      - "${MAILCATCHER_PORT}:1080"
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - "${MYADMIN_PORT}:80"
+    networks:
+      - default
+    links:
+      - db
+
+networks:
+  default:
+    driver: "bridge"

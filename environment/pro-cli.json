@@ -1,0 +1,19 @@
+{
+    "env": "local",
+    "type": "magento",
+    "scripts": {
+        "install": {
+            "command": {
+                "cp-env": "cp -i .env.example .env",
+                "composer-install": "project composer install",
+                "start-containers": "project up",
+                "setup": "project magento setup:install --admin-user=admin --admin-email=admin@your-magento.com --admin-firstname=Admin --admin-lastname=Lastname --admin-password=password1 --db-host=db --db-name=magento --db-user=root --db-password=root --base-url=http://localhost:${APP_PORT}/"
+            },
+            "description": "Installs the application."
+        },
+        "sample": {
+            "command": "echo -e 'I am just echoing ...'",
+            "description": "A sample command."
+        }
+    }
+}

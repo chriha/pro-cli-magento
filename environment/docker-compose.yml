@@ -2,7 +2,7 @@ version: '2'
 
 services:
   web:
-    image: chriha/magento2
+    image: procli/magento:2
     volumes:
       - ./src:/var/www:delegated
       - ./temp/composer:/composer
@@ -31,7 +31,7 @@ services:
     networks:
       - default
   node:
-    image: chriha/node:9
+    image: procli/node:9
     volumes:
       - ./src:/var/www
   redis:
@@ -42,7 +42,7 @@ services:
       - default
     command: redis-server
   mailcatcher:
-    image: chriha/mailcatcher:0.6-latest
+    image: procli/mailcatcher
     networks:
       - default
     ports:

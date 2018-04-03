@@ -14,8 +14,6 @@ services:
       - db
       - redis
       - mailcatcher
-    env_file:
-      - ./src/.env
   db:
     image: mysql:5.7
     restart: always
